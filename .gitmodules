@@ -1,0 +1,16 @@
+[submodule "u-boot-xlnx"]
+	path = u-boot-xlnx
+	url = https://github.com/m1nl/ebaz4205-u-boot-xlnx.git
+	branch = main
+[submodule "buildroot"]
+	path = buildroot
+	url = https://github.com/m1nl/ebaz4205-buildroot.git
+	branch = main
+[submodule "hdl"]
+	path = hdl
+	url = https://github.com/m1nl/ebaz4205-hdl.git
+	branch = main
+[submodule "linux"]
+	path = linux
+	url = https://github.com/m1nl/ebaz4205-linux.git
+	branch = ebaz4205
