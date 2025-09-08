@@ -145,7 +145,7 @@ The default IP address is `192.168.2.99`, the username is `root` and the passwor
 
 ## Using Expansion Board Components
 
-- **HDMI**: there are two examples under `/root` (`hdmi_test.py` and `hdmi_test_2.py`) - you can simply run them to see output on the HDMI screen. They use libiio Python bindings to set up cyclic and non-cyclic buffers and transfer frame data to the HDMI sink
+- **HDMI**: there are two examples under `/root` (`hdmi_test.py`, `hdmi_test_2.py` and `hdmi_test_3.py`) - you can simply run them to see output on the HDMI screen. They use libiio Python bindings to set up cyclic and non-cyclic buffers and transfer frame data to the HDMI sink
 - **SPI Display**: it's mapped as a Linux framebuffer with the staging `fbtft` driver - interact with the `/dev/fb0` device to use it; you can use the example provided under `/root` (`fb_test.py`)
 - **Buzzer**: it uses the Zynq TTC peripheral, use the `beep` utility to generate sounds (`beep -f 2400`)
 - **Buttons**: the main board button will reboot the board when pushed; other buttons are mapped with device tree to keys, but they don't trigger any action by default.
