@@ -47,9 +47,10 @@ HDL utilizes Vivado and Analog Devices TCL commands to define the block design. 
 
 ## SD-card Setup
 
-1. Create two partitions on the SD-card
-2. Format first as `vfat` and copy all files from `build_sdimg` directory
-3. Copy contents of `rootfs` to other partition
+1. Build the project or download binary release
+2. Create two partitions on the SD-card
+3. Format first partiton as `vfat` and copy all files from `build_sdimg` directory (or `boot` when using binary release)
+4. Copy contents of `rootfs.ext4` to the other partition
 ```
  dd if=build/rootfs.ext4 of=/dev/mmcblk0p2 bs=16M
 ```
