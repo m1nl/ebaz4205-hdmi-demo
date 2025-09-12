@@ -4,12 +4,12 @@
 	branch = main
 [submodule "buildroot"]
 	path = buildroot
-	url = https://github.com/m1nl/ebaz4205-buildroot.git
+	url = https://github.com/m1nl/buildroot.git
 	branch = main
 [submodule "hdl"]
 	path = hdl
-	url = https://github.com/m1nl/ebaz4205-hdl.git
-	branch = main
+	url = https://github.com/m1nl/analogdevicesinc-hdl.git
+	branch = ebaz4205
 [submodule "linux"]
 	path = linux
 	url = https://github.com/m1nl/ebaz4205-linux.git
