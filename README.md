@@ -12,19 +12,19 @@ It was tested on the variant with a crystal oscillator attached to the Ethernet 
 
 ## Repository Contents
 
-`buildroot` - this is a fork of the official [buildroot](https://github.com/buildroot/buildroot) repository, which implements new packages, downgrades Python to version 3.12 (because of compatibility issues with some packages), fixes builds of `python-scipy` and `python-numpy`, and adds the `ebaz4205` [configuration](https://github.com/m1nl/ebaz4205-buildroot/blob/main/configs/zynq_ebaz4205_defconfig) together with [board-specific files](https://github.com/m1nl/ebaz4205-buildroot/blob/main/board/ebaz4205)
+`buildroot` - this is a fork of the official [buildroot](https://github.com/buildroot/buildroot) repository, which implements new packages, downgrades Python to version 3.12 (because of compatibility issues with some packages), fixes builds of `python-scipy` and `python-numpy`, and adds the `ebaz4205` [configuration](https://github.com/m1nl/buildroot/blob/ebaz4205/configs/zynq_ebaz4205_defconfig) together with [board-specific files](https://github.com/m1nl/buildroot/blob/ebaz4205/board/ebaz4205)
 
 `hdl` - this is a fork of the official [Analog Devices HDL Reference Designs](https://github.com/analogdevicesinc/hdl) repository with the `ebaz4205` project definition, `hdmi` and `hdmi_generator` IP cores; it defines a basic HDL design to drive components on the expansion boards and establishes the DMA setup for the HDMI sink
 
-`hdl/projects/ebaz4205` - main project directory with hardware design; Vivado project is generated with TCL scripts, main block diagram is defined in [system_bd.tcl](https://github.com/m1nl/ebaz4205-hdl/blob/main/projects/ebaz4205/system_bd.tcl), XDC constraints in [system_constr.xdc](https://github.com/m1nl/ebaz4205-hdl/blob/main/projects/ebaz4205/system_constr.xdc); if you include Vivado environment in your terminal session (`$ source /opt/Xilinx/Vivado/2023.2/settings64.sh`) you should be able to generate Vivado project files by issuing `make` command in the project directory
+`hdl/projects/ebaz4205` - main project directory with hardware design; Vivado project is generated with TCL scripts, main block diagram is defined in [system_bd.tcl](https://github.com/m1nl/analogdevicesinc-hdl/blob/ebaz4205/projects/ebaz4205/system_bd.tcl), XDC constraints in [system_constr.xdc](https://github.com/m1nl/analogdevicesinc-hdl/blob/ebaz4205/projects/ebaz4205/system_constr.xdc); if you include Vivado environment in your terminal session (`$ source /opt/Xilinx/Vivado/2023.2/settings64.sh`) you should be able to generate Vivado project files by issuing `make` command in the project directory
 
-`hdl/library/hdmi` - HDMI IP created using [sameer's HDMI](https://github.com/hdl-util/hdmi) SystemVerilog code; to make IP packaging possible for Vivado, the [top design file](https://github.com/m1nl/ebaz4205-hdl/blob/main/library/hdmi/hdmi.v) was converted from SystemVerilog to Verilog
+`hdl/library/hdmi` - HDMI IP created using [sameer's HDMI](https://github.com/hdl-util/hdmi) SystemVerilog code; to make IP packaging possible for Vivado, the [top design file](https://github.com/m1nl/analogdevicesinc-hdl/blob/ebaz4205/library/hdmi/hdmi.v) was converted from SystemVerilog to Verilog
 
 `hdl/library/hdmi_generator` - custom HDMI generator IP which adapts 64-bit width AXI Stream to 24-bit RGB stream for the HDMI IP with some logic to keep RGB data synchronized and generates pixel clock for HDMI IP
 
-`linux` - [Analog Devices Linux Kernel](https://github.com/analogdevicesinc/linux) variant (from `adi-6.12.0` branch) rebased over latest 6.12 LTS kernel variant from Xilinx; I decided to use this combination to maintain compatibility with `libiio` and to use MathWorks drivers for DMA transfers; MathWorks drivers were slightly modified so they could be used to work exclusively with the ADI DMAC IP without requiring a custom IP core from MathWorks
+`linux` - this is a fork of [Analog Devices Linux Kernel](https://github.com/analogdevicesinc/linux) variant (from `adi-6.12.0` branch) rebased over latest 6.12 LTS kernel variant from Xilinx (`xlnx_rebase_v6.12_LTS_2025.1_update_merge_6.12.40`); I decided to use this combination to maintain compatibility with `libiio` and to use MathWorks drivers for DMA transfers; MathWorks drivers were slightly modified so they could be used to work exclusively with the ADI DMAC IP without requiring a custom IP core from MathWorks; dedicated [config file](https://github.com/m1nl/analogdevicesinc-linux/blob/ebaz4205/arch/arm/configs/zynq_ebaz4205_defconfig) for `ebaz4205` board is included
 
-`u-boot-xlnx` - [Xilinx U-Boot](https://github.com/Xilinx/u-boot-xlnx) variant with [DTS (Device Tree Source)](https://github.com/m1nl/ebaz4205-u-boot-xlnx/blob/main/arch/arm/dts/zynq-ebaz4205.dts) and [configuration](https://github.com/m1nl/ebaz4205-u-boot-xlnx/blob/main/configs/zynq_ebaz4205_defconfig) for the `ebaz4205` board
+`u-boot-xlnx` - [Xilinx U-Boot](https://github.com/Xilinx/u-boot-xlnx) variant with [DTS (Device Tree Source)](https://github.com/m1nl/u-boot-xlnx/blob/ebaz4205/arch/arm/dts/zynq-ebaz4205.dts) and [configuration](https://github.com/m1nl/u-boot-xlnx/blob/ebaz4205/configs/zynq_ebaz4205_defconfig) for the `ebaz4205` board
 
 ## Build Instructions
 
@@ -193,7 +193,7 @@ The default IP address is `192.168.2.99`, the username is `root` and the passwor
 
 ## Using Expansion Board Components
 
-- **HDMI**: there are two examples under `/root` (`hdmi_test.py`, `hdmi_test_2.py` and `hdmi_test_3.py`) - you can simply run them to see output on the HDMI screen. They use libiio Python bindings to set up cyclic and non-cyclic buffers and transfer frame data to the HDMI sink
+- **HDMI**: there are three examples under `/root` (`hdmi_test.py`, `hdmi_test_2.py` and `hdmi_test_3.py`) - you can simply run them to see output on the HDMI screen. They use libiio Python bindings to set up cyclic and non-cyclic buffers and transfer frame data to the HDMI sink
 - **SPI Display**: it's mapped as a Linux framebuffer with the staging `fbtft` driver - interact with the `/dev/fb0` device to use it; you can use the example provided under `/root` (`fb_test.py`)
 - **Buzzer**: it uses the Zynq TTC peripheral, use the `beep` utility to generate sounds (`beep -f 2400`)
 - **Buttons**: the main board button will reboot the board when pushed; other buttons are mapped with device tree to keys, but they don't trigger any action by default.
